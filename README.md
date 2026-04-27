@@ -1,112 +1,59 @@
-# baby-monitor-frontend
+# LunaFe
 
-Angular (PWA) frontend for **Luna** — a self-hosted baby tracking application.
-Log feedings, sleep, diaper changes, growth, medications and more, all from a
-mobile-friendly Progressive Web App that talks to a .NET Web API backend.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.8.
 
-> This repository contains **only** the frontend. The API and database live in
-> [`baby-monitor-backend`](../baby-monitor-backend).
+## Development server
 
----
-
-## Tech stack
-
-| Layer       | Technology          |
-| ----------- | ------------------- |
-| Framework   | Angular 17+         |
-| Language    | TypeScript          |
-| UI          | Angular Material (planned) |
-| PWA         | `@angular/pwa`      |
-| HTTP client | Angular `HttpClient`|
-| Auth        | JWT stored client-side |
-| Package mgr | npm                 |
-| Container   | Docker (multi-stage build, served via Nginx) |
-
-## Features (planned)
-
-- Feedings (bottle / left breast / right breast / formula, amount, duration)
-- Sleep sessions (start / end, location, notes)
-- Diaper changes (pee, poo, mixed)
-- Growth tracking (weight, height) with charts
-- Medication log (dose, time, reminders)
-- Temperature history
-- Mood / behaviour log (colic, happy, fussy, etc.)
-- Bath log
-- PDF export for pediatrician visits
-- PWA push notifications (feeding reminders)
-- Multi-user support (e.g., mom + dad share the same baby)
-
-## Prerequisites
-
-- Node.js 20+
-- npm 10+
-- Angular CLI (`npm i -g @angular/cli`)
-- A running instance of [`baby-monitor-backend`](../baby-monitor-backend)
-
-## Getting started
-
-> The project scaffold is not committed yet — this is the initial repository
-> skeleton. Steps below reflect the planned setup.
+To start a local development server, run:
 
 ```bash
-# install dependencies
-npm install
-
-# run the dev server (defaults to http://localhost:4200)
 ng serve
-
-# production build
-ng build --configuration production
 ```
 
-### Configure the backend URL
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-Set the API base URL in `src/environments/environment.ts` (dev) and
-`src/environments/environment.prod.ts` (prod). Default for local development:
+## Code scaffolding
 
-```ts
-export const environment = {
-  production: false,
-  apiBaseUrl: 'http://localhost:5000/api'
-};
-```
-
-## Docker
-
-The image is a multi-stage build (Node → Nginx). Build and run locally:
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
 ```bash
-docker build -t baby-monitor-frontend .
-docker run --rm -p 8080:80 baby-monitor-frontend
+ng generate component component-name
 ```
 
-In production the frontend is served together with the backend via the
-`docker-compose.yml` in the backend repo.
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
 
-## Project structure (planned)
-
-```
-baby-monitor-frontend/
-├── src/
-│   ├── app/
-│   │   ├── core/           # auth, interceptors, guards
-│   │   ├── shared/         # shared components, pipes, directives
-│   │   ├── features/       # feedings, sleep, diapers, growth, ...
-│   │   └── app.module.ts
-│   ├── assets/
-│   ├── environments/
-│   └── manifest.webmanifest
-├── angular.json
-├── package.json
-├── Dockerfile
-└── README.md
+```bash
+ng generate --help
 ```
 
-## Contributing
+## Building
 
-This is a personal project, but suggestions and pull requests are welcome.
-Please open an issue before starting any significant work.
+To build the project run:
 
-## License
+```bash
+ng build
+```
 
-MIT — see [LICENSE](./LICENSE).
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+
+## Running unit tests
+
+To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+
+```bash
+ng test
+```
+
+## Running end-to-end tests
+
+For end-to-end (e2e) testing, run:
+
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

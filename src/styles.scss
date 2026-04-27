@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+/* ── Luna design tokens ──────────────────────────────────────────────── */
+
+@theme {
+  --color-luna-50:  #f0f4ff;
+  --color-luna-100: #dbe4ff;
+  --color-luna-200: #bac8ff;
+  --color-luna-300: #91a7ff;
+  --color-luna-400: #748ffc;
+  --color-luna-500: #5c7cfa;
+  --color-luna-600: #4c6ef5;
+  --color-luna-700: #4263eb;
+  --color-luna-800: #3b5bdb;
+  --color-luna-900: #364fc7;
+
+  --color-baby-pink: #fce4ec;
+  --color-baby-blue: #e3f2fd;
+  --color-baby-mint: #e0f2f1;
+  --color-baby-peach: #fff3e0;
+}
+
+/* ── Base resets ──────────────────────────────────────────────────────── */
+
+html, body {
+  @apply h-full bg-gray-50 text-gray-900 antialiased;
+}
+
+body {
+  @apply m-0 font-sans;
+}
