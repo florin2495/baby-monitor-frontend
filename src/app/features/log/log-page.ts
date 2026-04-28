@@ -1,6 +1,6 @@
 import { Component, inject, signal, effect } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { BabyContextService, FeedingService, SleepService, DiaperService, GrowthService, MedicationService } from '../../core/services';
+import { BabyContextService, FeedingService, SleepService, DiaperService, GrowthService, MedicationService, OverlayService } from '../../core/services';
 import { FeedingSource, SleepEntry } from '../../core/models';
 
 @Component({
@@ -191,9 +191,15 @@ import { FeedingSource, SleepEntry } from '../../core/models';
         <div class="section-label">Nume medicament</div>
         <input class="luna-input" placeholder="ex: Paracetamol" [value]="medName()" (input)="medName.set($any($event.target).value)" style="margin-bottom: 12px;" />
         <div class="section-label">Doză</div>
-        <div style="display: flex; gap: 8px; margin-bottom: 20px;">
+        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
           <input class="luna-input" type="number" placeholder="Cantitate" [value]="medDose()" (input)="medDose.set(+$any($event.target).value)" style="flex: 1;" />
-          <input class="luna-input" placeholder="ml, mg..." [value]="medUnit()" (input)="medUnit.set($any($event.target).value)" style="flex: 1;" />
+        </div>
+        <div class="section-label">Unitate</div>
+        <div style="display: flex; gap: 8px; margin-bottom: 20px;">
+          @for (u of medUnits; track u) {
+            <button class="source-pill" [class.source-pill--active]="medUnit() === u"
+                    (click)="medUnit.set(u)">{{ u }}</button>
+          }
         </div>
         <button class="btn-primary" style="width: 100%;" [disabled]="saving() || !medName()" (click)="saveMedication()">
           @if (saving()) { Se salvează... } @else { Salvează }
@@ -220,6 +226,7 @@ import { FeedingSource, SleepEntry } from '../../core/models';
 })
 export class LogPageComponent {
   readonly ctx = inject(BabyContextService);
+  private readonly overlay = inject(OverlayService);
   private readonly feedingService = inject(FeedingService);
   private readonly sleepService = inject(SleepService);
   private readonly diaperService = inject(DiaperService);
@@ -258,6 +265,7 @@ export class LogPageComponent {
   medName = signal('');
   medDose = signal(0);
   medUnit = signal('ml');
+  medUnits = ['ml', 'mg', 'picături'];
   medNotes = signal('');
   genericNote = signal('');
 
@@ -272,8 +280,15 @@ export class LogPageComponent {
     });
   }
 
-  openSheet(type: string) { this.activeSheet.set(type); }
-  closeSheet() { this.activeSheet.set(null); }
+  openSheet(type: string) {
+    this.activeSheet.set(type);
+    this.overlay.show();
+  }
+
+  closeSheet() {
+    this.activeSheet.set(null);
+    this.overlay.hide();
+  }
 
   private toast() {
     this.showToast.set(true);
@@ -327,7 +342,7 @@ export class LogPageComponent {
         this.saving.set(false);
         this.closeSheet();
         this.toast();
-        this.checkActiveSleep(baby.id);
+        if (baby) this.checkActiveSleep(baby.id);
       },
       error: () => this.saving.set(false),
     });

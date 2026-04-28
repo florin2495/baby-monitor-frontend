@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { BabyContextService, BabyService } from '../../core/services';
+import { BabyContextService, BabyService, OverlayService } from '../../core/services';
 import { Baby } from '../../core/models';
 
 @Component({
@@ -11,7 +11,6 @@ import { Baby } from '../../core/models';
     <h1 class="font-heading" style="font-size: 22px; font-weight: 800; color: #3B2E26; margin: 0 0 4px;">Setări</h1>
     <p class="font-body" style="font-size: 13px; color: #C4A99A; margin: 0 0 24px;">Gestionează bebelușii și aplicația</p>
 
-    <!-- Babies section -->
     <div class="section-label">Bebeluși</div>
     <div class="luna-card" style="padding: 0; overflow: hidden; margin-bottom: 16px;">
       @for (baby of ctx.babies(); track baby.id; let i = $index) {
@@ -48,7 +47,6 @@ import { Baby } from '../../core/models';
       + Adaugă bebeluș
     </a>
 
-    <!-- App info -->
     <div class="section-label">Despre</div>
     <div class="luna-card">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
@@ -67,9 +65,8 @@ import { Baby } from '../../core/models';
       </p>
     </div>
 
-    <!-- Delete confirmation -->
     @if (babyToDelete()) {
-      <div class="bottom-sheet-backdrop" (click)="babyToDelete.set(null)"></div>
+      <div class="bottom-sheet-backdrop" (click)="cancelDelete()"></div>
       <div class="bottom-sheet" style="text-align: center;">
         <div class="grab-handle"></div>
         <div style="width: 56px; height: 56px; border-radius: 16px; background: #FFF1F2; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
@@ -80,7 +77,7 @@ import { Baby } from '../../core/models';
         <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0 0 8px;">Șterge {{ babyToDelete()!.name }}?</h2>
         <p class="font-body" style="font-size: 14px; color: #8B7263; margin: 0 0 24px;">Toate datele asociate vor fi șterse permanent.</p>
         <div style="display: flex; gap: 10px;">
-          <button class="btn-secondary" style="flex: 1;" (click)="babyToDelete.set(null)">Anulează</button>
+          <button class="btn-secondary" style="flex: 1;" (click)="cancelDelete()">Anulează</button>
           <button class="btn-primary" style="flex: 1; background: #F43F5E;" [disabled]="deleting()" (click)="deleteBaby()">
             @if (deleting()) { Se șterge... } @else { Șterge }
           </button>
@@ -92,6 +89,7 @@ import { Baby } from '../../core/models';
 export class SettingsPageComponent {
   readonly ctx = inject(BabyContextService);
   private readonly babyService = inject(BabyService);
+  private readonly overlay = inject(OverlayService);
 
   babyToDelete = signal<Baby | null>(null);
   deleting = signal(false);
@@ -102,6 +100,12 @@ export class SettingsPageComponent {
 
   confirmDelete(baby: Baby) {
     this.babyToDelete.set(baby);
+    this.overlay.show();
+  }
+
+  cancelDelete() {
+    this.babyToDelete.set(null);
+    this.overlay.hide();
   }
 
   deleteBaby() {
@@ -111,7 +115,7 @@ export class SettingsPageComponent {
     this.babyService.delete(baby.id).subscribe({
       next: () => {
         this.deleting.set(false);
-        this.babyToDelete.set(null);
+        this.cancelDelete();
         this.ctx.refresh();
       },
       error: () => this.deleting.set(false),
