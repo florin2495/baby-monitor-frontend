@@ -163,79 +163,58 @@ import { FeedingSource, SleepEntry } from '../../core/models';
         <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0 0 16px;">Creștere</h2>
 
         <!-- Weight -->
-        <div class="growth-row" (click)="growthEditField.set('weight')">
+        <div class="growth-row">
           <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
             <div style="width: 36px; height: 36px; border-radius: 10px; background: #FFF7ED; display: flex; align-items: center; justify-content: center;">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 3a9 9 0 019 9v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a9 9 0 019-9z"/>
               </svg>
             </div>
-            <div>
-              <p class="font-body" style="font-size: 14px; font-weight: 600; color: #3B2E26; margin: 0;">Greutate</p>
-              <p class="font-body" style="font-size: 12px; color: #C4A99A; margin: 2px 0 0;">{{ growthWeight() ? growthWeight() + ' kg' : 'Apasă pentru a introduce' }}</p>
-            </div>
+            <p class="font-body" style="font-size: 14px; font-weight: 600; color: #3B2E26; margin: 0;">Greutate</p>
           </div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C4A99A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <input type="number" step="0.001" class="luna-input"
+                  style="width: 90px; font-size: 15px; font-weight: 700; text-align: center; padding: 6px 8px;"
+                  [value]="growthWeight()" (input)="growthWeight.set(+$any($event.target).value)" placeholder="kg" />
+            <span style="font-size: 13px; font-weight: 600; color: #C4A99A;">cm</span>
+          </div>
         </div>
-        @if (growthEditField() === 'weight') {
-          <div style="padding: 12px; background: #FEFCE8; border-radius: 12px; margin: -4px 0 12px;">
-            <div class="section-label" style="margin-bottom: 6px;">Greutate (kg) — 3 zecimale</div>
-            <input type="number" step="0.001" class="luna-input" style="font-size: 16px; font-weight: 700; text-align: center;"
-                   [value]="growthWeight()" (input)="growthWeight.set(+$any($event.target).value)" placeholder="ex: 3.450" />
-          </div>
-        }
 
         <!-- Height -->
-        <div class="growth-row" (click)="growthEditField.set('height')">
+        <div class="growth-row">
           <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
             <div style="width: 36px; height: 36px; border-radius: 10px; background: #F5F3FF; display: flex; align-items: center; justify-content: center;">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 2v20M2 12h4M18 12h4M8 6l4-4 4 4M8 18l4 4 4-4"/>
               </svg>
             </div>
-            <div>
-              <p class="font-body" style="font-size: 14px; font-weight: 600; color: #3B2E26; margin: 0;">Înălțime</p>
-              <p class="font-body" style="font-size: 12px; color: #C4A99A; margin: 2px 0 0;">{{ growthHeight() ? growthHeight() + ' cm' : 'Apasă pentru a introduce' }}</p>
-            </div>
+            <p class="font-body" style="font-size: 14px; font-weight: 600; color: #3B2E26; margin: 0;">Înălțime</p>
           </div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C4A99A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <input type="number" step="0.1" class="luna-input"
+                  style="width: 90px; font-size: 15px; font-weight: 700; text-align: center; padding: 6px 8px;"
+                  [value]="growthHeight()" (input)="growthHeight.set(+$any($event.target).value)" placeholder="cm" />
+            <span style="font-size: 13px; font-weight: 600; color: #C4A99A;">cm</span>
+          </div>
         </div>
-        @if (growthEditField() === 'height') {
-          <div style="padding: 12px; background: #FEFCE8; border-radius: 12px; margin: -4px 0 12px;">
-            <div class="section-label" style="margin-bottom: 6px;">Înălțime (cm)</div>
-            <input type="number" step="0.1" class="luna-input" style="font-size: 16px; font-weight: 700; text-align: center;"
-                   [value]="growthHeight()" (input)="growthHeight.set(+$any($event.target).value)" placeholder="ex: 52.5" />
-          </div>
-        }
 
         <!-- Head circumference -->
-        <div class="growth-row" (click)="growthEditField.set('head')">
+        <div class="growth-row">
           <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
             <div style="width: 36px; height: 36px; border-radius: 10px; background: #F0FDFA; display: flex; align-items: center; justify-content: center;">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"/>
               </svg>
             </div>
-            <div>
-              <p class="font-body" style="font-size: 14px; font-weight: 600; color: #3B2E26; margin: 0;">Circumferință cap</p>
-              <p class="font-body" style="font-size: 12px; color: #C4A99A; margin: 2px 0 0;">{{ growthHead() ? growthHead() + ' cm' : 'Apasă pentru a introduce' }}</p>
-            </div>
+            <p class="font-body" style="font-size: 14px; font-weight: 600; color: #3B2E26; margin: 0;">Circumferință cap</p>
           </div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C4A99A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <input type="number" step="0.1" class="luna-input"
+                  style="width: 90px; font-size: 15px; font-weight: 700; text-align: center; padding: 6px 8px;"
+                  [value]="growthHead()" (input)="growthHead.set(+$any($event.target).value)" placeholder="cm" />
+            <span style="font-size: 13px; font-weight: 600; color: #C4A99A;">cm</span>
+          </div>
         </div>
-        @if (growthEditField() === 'head') {
-          <div style="padding: 12px; background: #FEFCE8; border-radius: 12px; margin: -4px 0 12px;">
-            <div class="section-label" style="margin-bottom: 6px;">Circumferință cap (cm)</div>
-            <input type="number" step="0.1" class="luna-input" style="font-size: 16px; font-weight: 700; text-align: center;"
-                   [value]="growthHead()" (input)="growthHead.set(+$any($event.target).value)" placeholder="ex: 35.0" />
-          </div>
-        }
 
         <div style="margin-top: 16px;">
           <button class="btn-primary" style="width: 100%;" [disabled]="saving()" (click)="saveGrowth()">
