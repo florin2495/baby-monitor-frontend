@@ -103,14 +103,14 @@ interface TimelineEvent {
       <div class="bottom-sheet">
         <div class="grab-handle"></div>
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <div style="width: 32px;"></div>
+          <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0;">Editează hrănire</h2>
           <button class="touch-bounce" (click)="deleteEvent()"
                   style="width: 32px; height: 32px; border-radius: 10px; background: #FEE2E2; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
             </svg>
           </button>
-          <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0;">Editează hrănire</h2>
-          <div style="width: 32px;"></div>
         </div>
         <div class="section-label">Data și ora</div>
         <input type="datetime-local" class="luna-input" [value]="editDateTime()" (input)="editDateTime.set($any($event.target).value)" style="margin-bottom: 14px;" />
@@ -145,14 +145,14 @@ interface TimelineEvent {
       <div class="bottom-sheet">
         <div class="grab-handle"></div>
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <div style="width: 32px;"></div>
+          <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0;">Editează somn</h2>
           <button class="touch-bounce" (click)="deleteEvent()"
                   style="width: 32px; height: 32px; border-radius: 10px; background: #FEE2E2; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
             </svg>
           </button>
-          <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0;">Editează somn</h2>
-          <div style="width: 32px;"></div>
         </div>
         <div class="section-label">Început</div>
         <input type="datetime-local" class="luna-input" [value]="editSleepStart()" (input)="editSleepStart.set($any($event.target).value)" style="margin-bottom: 12px;" />
@@ -172,14 +172,14 @@ interface TimelineEvent {
       <div class="bottom-sheet">
         <div class="grab-handle"></div>
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-          <button class="touch-bounce" (click)="deleteEvent()"
-                  style="width: 32px; height: 32px; border-radius: 10px; background: #FEE2E2; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
-            </svg>
-          </button>
-          <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0;">Editează scutec</h2>
           <div style="width: 32px;"></div>
+          <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0;">Editează scutec</h2>
+          <button class="touch-bounce" (click)="deleteEvent()"
+                style="width: 32px; height: 32px; border-radius: 10px; background: #FEE2E2; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+          </svg>
+          </button>
         </div>
         <div class="section-label">Data și ora</div>
         <input type="datetime-local" class="luna-input" [value]="editDateTime()" (input)="editDateTime.set($any($event.target).value)" style="margin-bottom: 14px;" />
@@ -202,14 +202,14 @@ interface TimelineEvent {
       <div class="bottom-sheet">
         <div class="grab-handle"></div>
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <div style="width: 32px;"></div>
+          <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0;">Editează medicație</h2>
           <button class="touch-bounce" (click)="deleteEvent()"
                   style="width: 32px; height: 32px; border-radius: 10px; background: #FEE2E2; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
             </svg>
-          </button>
-          <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0;">Editează medicație</h2>
-          <div style="width: 32px;"></div>
+          </button>          
         </div>
         <div class="section-label">Data și ora</div>
         <input type="datetime-local" class="luna-input" [value]="editDateTime()" (input)="editDateTime.set($any($event.target).value)" style="margin-bottom: 14px;" />
@@ -366,7 +366,7 @@ export class TimelineComponent {
 
   private toLocalISO(d: Date): string {
     const pad = (n: number) => n.toString().padStart(2, '0');
-    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
   }
 
   private srcMap: Record<string, string> = {
@@ -409,7 +409,7 @@ export class TimelineComponent {
           const endStr = new Date(s.endedAt).toLocaleTimeString('ro', { hour: '2-digit', minute: '2-digit' });
           const mins = Math.round((new Date(s.endedAt).getTime() - new Date(s.startedAt).getTime()) / 60000);
           details.push('De la ' + startStr + ' până la ' + endStr);
-          details.push('Durată: ' + Math.floor(mins/60) + 'h ' + (mins%60) + 'min');
+          details.push('Durată: ' + Math.floor(mins / 60) + 'h ' + (mins % 60) + 'min');
         } else {
           details.push('Început la ' + startStr + ' — în desfășurare');
         }
