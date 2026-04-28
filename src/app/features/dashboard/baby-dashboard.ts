@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, signal, effect } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { FeedingEntry, SleepEntry, DiaperEntry } from '../../core/models';
-import { FeedingService, SleepService, DiaperService, BabyContextService } from '../../core/services';
+import { FeedingEntry, SleepEntry, DiaperEntry, MedicationEntry } from '../../core/models';
+import { FeedingService, SleepService, DiaperService, MedicationService, BabyContextService } from '../../core/services';
 
 @Component({
   selector: 'app-baby-dashboard',
@@ -14,16 +14,14 @@ import { FeedingService, SleepService, DiaperService, BabyContextService } from 
       <div class="luna-card" style="margin-bottom: 16px;">
         <div style="display: flex; align-items: center; gap: 12px;">
           <div style="width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; font-family: 'Nunito', sans-serif;"
-               [style.background]="babyBg()"
-               [style.color]="babyColor()">
+               [style.background]="babyBg()" [style.color]="babyColor()">
             {{ b.name.charAt(0).toUpperCase() }}
           </div>
           <div style="flex: 1; min-width: 0;">
             <h1 class="font-heading" style="font-size: 20px; font-weight: 800; color: #3B2E26; margin: 0; line-height: 1.2;">{{ b.name }}</h1>
             <p class="font-body" style="font-size: 13px; color: #C4A99A; margin: 4px 0 0;">{{ b.dateOfBirth | date:'d MMMM yyyy' }}</p>
           </div>
-          <a [routerLink]="['/babies', b.id, 'edit']"
-             class="touch-bounce"
+          <a [routerLink]="['/babies', b.id, 'edit']" class="touch-bounce"
              style="width: 36px; height: 36px; border-radius: 12px; background: #EDE9FE; display: flex; align-items: center; justify-content: center; text-decoration: none;">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
@@ -58,7 +56,7 @@ import { FeedingService, SleepService, DiaperService, BabyContextService } from 
         <div class="stat-card">
           <div class="stat-card__icon" style="background: #FFF7ED;">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
+              <path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>
             </svg>
           </div>
           <div class="stat-card__value">{{ todayFeedings() }}</div>
@@ -76,8 +74,7 @@ import { FeedingService, SleepService, DiaperService, BabyContextService } from 
         <div class="stat-card">
           <div class="stat-card__icon" style="background: #F0FDFA;">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
-              <path d="M8 12h8"/><path d="M12 8v8"/>
+              <circle cx="12" cy="12" r="10"/>
             </svg>
           </div>
           <div class="stat-card__value">{{ todayDiapers() }}</div>
@@ -92,7 +89,7 @@ import { FeedingService, SleepService, DiaperService, BabyContextService } from 
         <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid rgba(245,230,222,0.5);">
           <div style="width: 38px; height: 38px; border-radius: 12px; background: #FFF7ED; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
+              <path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>
             </svg>
           </div>
           <div style="flex: 1; min-width: 0;">
@@ -125,11 +122,10 @@ import { FeedingService, SleepService, DiaperService, BabyContextService } from 
         </div>
 
         <!-- Diaper -->
-        <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px;">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid rgba(245,230,222,0.5);">
           <div style="width: 38px; height: 38px; border-radius: 12px; background: #F0FDFA; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
-              <path d="M8 12h8"/><path d="M12 8v8"/>
+              <circle cx="12" cy="12" r="10"/>
             </svg>
           </div>
           <div style="flex: 1; min-width: 0;">
@@ -141,13 +137,29 @@ import { FeedingService, SleepService, DiaperService, BabyContextService } from 
             }
           </div>
         </div>
+
+        <!-- Medication -->
+        <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px;">
+          <div style="width: 38px; height: 38px; border-radius: 12px; background: #FFF1F2; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F43F5E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-6 18.75h9"/>
+            </svg>
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <p class="font-body" style="font-size: 15px; font-weight: 600; color: #3B2E26; margin: 0;">Medicație</p>
+            @if (lastMedication(); as m) {
+              <p class="font-body" style="font-size: 13px; color: #C4A99A; margin: 2px 0 0;">{{ m.name }} · {{ m.administeredAt | date:'HH:mm' }}@if (m.doseAmount) { · {{ m.doseAmount }}{{ m.doseUnit ?? '' }} }</p>
+            } @else {
+              <p class="font-body" style="font-size: 13px; color: #F5E6DE; margin: 2px 0 0;">Nicio înregistrare</p>
+            }
+          </div>
+        </div>
       </div>
     } @else if (ctx.loading()) {
       <div style="display: flex; justify-content: center; padding: 60px 0;">
         <div style="width: 32px; height: 32px; border: 3px solid #EDE9FE; border-top-color: #8B5CF6; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
       </div>
     } @else {
-      <!-- No babies yet -->
       <div style="text-align: center; padding: 60px 20px;">
         <div style="width: 80px; height: 80px; border-radius: 24px; background: #F5F3FF; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
           <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -160,21 +172,19 @@ import { FeedingService, SleepService, DiaperService, BabyContextService } from 
       </div>
     }
   `,
-  styles: [`
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-  `]
+  styles: [`@keyframes spin { to { transform: rotate(360deg); } }`]
 })
 export class BabyDashboardComponent implements OnInit {
   readonly ctx = inject(BabyContextService);
   private readonly feedingService = inject(FeedingService);
   private readonly sleepService = inject(SleepService);
   private readonly diaperService = inject(DiaperService);
+  private readonly medicationService = inject(MedicationService);
 
   lastFeeding = signal<FeedingEntry | null>(null);
   lastSleep = signal<SleepEntry | null>(null);
   lastDiaper = signal<DiaperEntry | null>(null);
+  lastMedication = signal<MedicationEntry | null>(null);
   activeSleep = signal<SleepEntry | null>(null);
   stoppingSleep = signal(false);
   todayFeedings = signal(0);
@@ -183,20 +193,13 @@ export class BabyDashboardComponent implements OnInit {
 
   private babyEffect = effect(() => {
     const baby = this.ctx.activeBaby();
-    if (baby) {
-      this.loadData(baby.id);
-    }
+    if (baby) this.loadData(baby.id);
   });
 
   ngOnInit() {}
 
-  babyBg() {
-    return this.ctx.getBabyColor(this.ctx.activeIndex()).bg;
-  }
-
-  babyColor() {
-    return this.ctx.getBabyColor(this.ctx.activeIndex()).text;
-  }
+  babyBg() { return this.ctx.getBabyColor(this.ctx.activeIndex()).bg; }
+  babyColor() { return this.ctx.getBabyColor(this.ctx.activeIndex()).text; }
 
   stopSleep(sleep: SleepEntry) {
     const baby = this.ctx.activeBaby();
@@ -208,10 +211,7 @@ export class BabyDashboardComponent implements OnInit {
       location: sleep.location,
       notes: sleep.notes,
     }).subscribe({
-      next: () => {
-        this.stoppingSleep.set(false);
-        this.loadData(baby.id);
-      },
+      next: () => { this.stoppingSleep.set(false); this.loadData(baby.id); },
       error: () => this.stoppingSleep.set(false),
     });
   }
@@ -224,7 +224,6 @@ export class BabyDashboardComponent implements OnInit {
     });
     this.sleepService.getAll(babyId).subscribe(items => {
       this.lastSleep.set(items[0] ?? null);
-      // Find active (ongoing) sleep
       this.activeSleep.set(items.find(s => !s.endedAt) ?? null);
       const today = new Date().toDateString();
       const todayItems = items.filter(i => new Date(i.startedAt).toDateString() === today);
@@ -240,6 +239,9 @@ export class BabyDashboardComponent implements OnInit {
       this.lastDiaper.set(items[0] ?? null);
       const today = new Date().toDateString();
       this.todayDiapers.set(items.filter(i => new Date(i.occurredAt).toDateString() === today).length);
+    });
+    this.medicationService.getAll(babyId).subscribe(items => {
+      this.lastMedication.set(items[0] ?? null);
     });
   }
 
