@@ -102,7 +102,18 @@ interface TimelineEvent {
       <div class="bottom-sheet-backdrop" (click)="cancelEdit()"></div>
       <div class="bottom-sheet">
         <div class="grab-handle"></div>
-        <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0 0 16px;">Editează hrănire</h2>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <button class="touch-bounce" (click)="deleteEvent()"
+                  style="width: 32px; height: 32px; border-radius: 10px; background: #FEE2E2; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+            </svg>
+          </button>
+          <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0;">Editează hrănire</h2>
+          <div style="width: 32px;"></div>
+        </div>
+        <div class="section-label">Data și ora</div>
+        <input type="datetime-local" class="luna-input" [value]="editDateTime()" (input)="editDateTime.set($any($event.target).value)" style="margin-bottom: 14px;" />
         <div class="section-label">Sursă</div>
         <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
           @for (src of feedingSources; track src.value) {
@@ -113,13 +124,13 @@ interface TimelineEvent {
         <div class="section-label">Cantitate (ml)</div>
         <div class="stepper" style="margin-bottom: 16px;">
           <button class="stepper__btn" (click)="editFeedingMl.set(Math.max(0, editFeedingMl() - 10))">−</button>
-          <div><span class="stepper__value">{{ editFeedingMl() }}</span><span class="stepper__unit"> ml</span></div>
+          <input type="number" class="luna-input" style="width: 70px; text-align: center; font-size: 16px; font-weight: 700; padding: 6px;" [value]="editFeedingMl()" (input)="editFeedingMl.set(+$any($event.target).value)" />
           <button class="stepper__btn" (click)="editFeedingMl.set(editFeedingMl() + 10)">+</button>
         </div>
         <div class="section-label">Durată (minute)</div>
         <div class="stepper" style="margin-bottom: 20px;">
           <button class="stepper__btn" (click)="editFeedingMin.set(Math.max(0, editFeedingMin() - 1))">−</button>
-          <div><span class="stepper__value">{{ editFeedingMin() }}</span><span class="stepper__unit"> min</span></div>
+          <input type="number" class="luna-input" style="width: 70px; text-align: center; font-size: 16px; font-weight: 700; padding: 6px;" [value]="editFeedingMin()" (input)="editFeedingMin.set(+$any($event.target).value)" />
           <button class="stepper__btn" (click)="editFeedingMin.set(editFeedingMin() + 1)">+</button>
         </div>
         <button class="btn-primary" style="width: 100%;" [disabled]="editSaving()" (click)="saveEditFeeding()">
@@ -133,7 +144,16 @@ interface TimelineEvent {
       <div class="bottom-sheet-backdrop" (click)="cancelEdit()"></div>
       <div class="bottom-sheet">
         <div class="grab-handle"></div>
-        <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0 0 16px;">Editează somn</h2>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <button class="touch-bounce" (click)="deleteEvent()"
+                  style="width: 32px; height: 32px; border-radius: 10px; background: #FEE2E2; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+            </svg>
+          </button>
+          <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0;">Editează somn</h2>
+          <div style="width: 32px;"></div>
+        </div>
         <div class="section-label">Început</div>
         <input type="datetime-local" class="luna-input" [value]="editSleepStart()" (input)="editSleepStart.set($any($event.target).value)" style="margin-bottom: 12px;" />
         <div class="section-label">Sfârșit</div>
@@ -151,7 +171,18 @@ interface TimelineEvent {
       <div class="bottom-sheet-backdrop" (click)="cancelEdit()"></div>
       <div class="bottom-sheet">
         <div class="grab-handle"></div>
-        <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0 0 16px;">Editează scutec</h2>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <button class="touch-bounce" (click)="deleteEvent()"
+                  style="width: 32px; height: 32px; border-radius: 10px; background: #FEE2E2; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+            </svg>
+          </button>
+          <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0;">Editează scutec</h2>
+          <div style="width: 32px;"></div>
+        </div>
+        <div class="section-label">Data și ora</div>
+        <input type="datetime-local" class="luna-input" [value]="editDateTime()" (input)="editDateTime.set($any($event.target).value)" style="margin-bottom: 14px;" />
         <div class="section-label">Tip</div>
         <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
           @for (dt of diaperTypeOptions; track dt.value) {
@@ -170,7 +201,18 @@ interface TimelineEvent {
       <div class="bottom-sheet-backdrop" (click)="cancelEdit()"></div>
       <div class="bottom-sheet">
         <div class="grab-handle"></div>
-        <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0 0 16px;">Editează medicație</h2>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <button class="touch-bounce" (click)="deleteEvent()"
+                  style="width: 32px; height: 32px; border-radius: 10px; background: #FEE2E2; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+            </svg>
+          </button>
+          <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0;">Editează medicație</h2>
+          <div style="width: 32px;"></div>
+        </div>
+        <div class="section-label">Data și ora</div>
+        <input type="datetime-local" class="luna-input" [value]="editDateTime()" (input)="editDateTime.set($any($event.target).value)" style="margin-bottom: 14px;" />
         <div class="section-label">Nume</div>
         <input class="luna-input" [value]="editMedName()" (input)="editMedName.set($any($event.target).value)" style="margin-bottom: 12px;" />
         <div class="section-label">Doză</div>
@@ -188,9 +230,31 @@ interface TimelineEvent {
       </div>
     }
 
+    <!-- Delete confirmation -->
+    @if (confirmDelete()) {
+      <div class="bottom-sheet-backdrop" style="z-index: 210;" (click)="confirmDelete.set(false)"></div>
+      <div style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 211; background: white; border-radius: 20px 20px 0 0; padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -4px 24px rgba(0,0,0,0.12);">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <div style="width: 48px; height: 48px; border-radius: 14px; background: #FEE2E2; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+            </svg>
+          </div>
+          <h3 class="font-heading" style="font-size: 17px; font-weight: 700; color: #3B2E26; margin: 0 0 4px;">Șterge activitatea?</h3>
+          <p class="font-body" style="font-size: 13px; color: #C4A99A; margin: 0;">Această acțiune nu poate fi anulată.</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn-primary" style="flex: 1; background: #F5E6DE; color: #8B7263;" (click)="confirmDelete.set(false)">Anulează</button>
+          <button class="btn-primary" style="flex: 1; background: #EF4444;" [disabled]="editSaving()" (click)="confirmDeleteAction()">
+            @if (editSaving()) { ... } @else { Șterge }
+          </button>
+        </div>
+      </div>
+    }
+
     @if (showToast()) {
       <div style="position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #3B2E26; color: white; padding: 12px 24px; border-radius: 14px; font-family: 'Nunito Sans', sans-serif; font-size: 14px; font-weight: 600; z-index: 300; animation: fadeIn 0.2s ease;">
-        Actualizat cu succes
+        {{ toastMessage() }}
       </div>
     }
   `,
@@ -208,6 +272,7 @@ export class TimelineComponent {
   allEvents = signal<TimelineEvent[]>([]);
   loading = signal(true);
   showToast = signal(false);
+  toastMessage = signal('Actualizat cu succes');
 
   // Filters — multi-select
   filterOptions = [
@@ -237,6 +302,10 @@ export class TimelineComponent {
   editingType = signal<string | null>(null);
   editingEvent = signal<TimelineEvent | null>(null);
   editSaving = signal(false);
+  confirmDelete = signal(false);
+
+  // Edit common — date/time
+  editDateTime = signal('');
 
   // Edit feeding
   editFeedingSource = signal<FeedingSource>('Bottle');
@@ -379,6 +448,7 @@ export class TimelineComponent {
 
     if (evt.type === 'feeding') {
       const f = evt.raw as FeedingEntry;
+      this.editDateTime.set(this.toLocalISO(new Date(f.occurredAt)));
       this.editFeedingSource.set(f.source);
       this.editFeedingMl.set(f.amountMl ?? 0);
       this.editFeedingMin.set(f.durationMinutes ?? 0);
@@ -389,9 +459,11 @@ export class TimelineComponent {
       this.editSleepNotes.set(s.notes ?? '');
     } else if (evt.type === 'diaper') {
       const d = evt.raw as DiaperEntry;
+      this.editDateTime.set(this.toLocalISO(new Date(d.occurredAt)));
       this.editDiaperType.set(d.type as any);
     } else if (evt.type === 'medication') {
       const m = evt.raw as MedicationEntry;
+      this.editDateTime.set(this.toLocalISO(new Date(m.administeredAt)));
       this.editMedName.set(m.name);
       this.editMedDose.set(m.doseAmount ?? 0);
       this.editMedUnit.set(m.doseUnit ?? 'ml');
@@ -401,7 +473,37 @@ export class TimelineComponent {
   cancelEdit() {
     this.editingType.set(null);
     this.editingEvent.set(null);
+    this.confirmDelete.set(false);
     this.overlay.hide();
+  }
+
+  deleteEvent() {
+    this.confirmDelete.set(true);
+  }
+
+  confirmDeleteAction() {
+    const baby = this.ctx.activeBaby();
+    const evt = this.editingEvent();
+    if (!baby || !evt) return;
+    this.editSaving.set(true);
+
+    let obs;
+    if (evt.type === 'feeding') obs = this.feedingService.delete(baby.id, evt.id);
+    else if (evt.type === 'sleep') obs = this.sleepService.delete(baby.id, evt.id);
+    else if (evt.type === 'diaper') obs = this.diaperService.delete(baby.id, evt.id);
+    else obs = this.medicationService.delete(baby.id, evt.id);
+
+    obs.subscribe({
+      next: () => {
+        this.editSaving.set(false);
+        this.confirmDelete.set(false);
+        this.cancelEdit();
+        this.toastMessage.set('Șters cu succes');
+        this.toast();
+        this.loadTimeline(baby.id);
+      },
+      error: () => this.editSaving.set(false),
+    });
   }
 
   private toast() {
@@ -416,12 +518,12 @@ export class TimelineComponent {
     const f = evt.raw as FeedingEntry;
     this.editSaving.set(true);
     this.feedingService.update(baby.id, f.id, {
-      occurredAt: f.occurredAt,
+      occurredAt: new Date(this.editDateTime()).toISOString(),
       source: this.editFeedingSource(),
       amountMl: this.editFeedingMl() || null,
       durationMinutes: this.editFeedingMin() || null,
     }).subscribe({
-      next: () => { this.editSaving.set(false); this.cancelEdit(); this.toast(); this.loadTimeline(baby.id); },
+      next: () => { this.editSaving.set(false); this.cancelEdit(); this.toastMessage.set('Actualizat cu succes'); this.toast(); this.loadTimeline(baby.id); },
       error: () => this.editSaving.set(false),
     });
   }
@@ -436,7 +538,7 @@ export class TimelineComponent {
       endedAt: this.editSleepEnd() ? new Date(this.editSleepEnd()).toISOString() : null,
       notes: this.editSleepNotes() || null,
     }).subscribe({
-      next: () => { this.editSaving.set(false); this.cancelEdit(); this.toast(); this.loadTimeline(baby.id); },
+      next: () => { this.editSaving.set(false); this.cancelEdit(); this.toastMessage.set('Actualizat cu succes'); this.toast(); this.loadTimeline(baby.id); },
       error: () => this.editSaving.set(false),
     });
   }
@@ -445,13 +547,12 @@ export class TimelineComponent {
     const baby = this.ctx.activeBaby();
     const evt = this.editingEvent();
     if (!baby || !evt) return;
-    const d = evt.raw as DiaperEntry;
     this.editSaving.set(true);
-    this.diaperService.update(baby.id, d.id, {
-      occurredAt: d.occurredAt,
+    this.diaperService.update(baby.id, evt.id, {
+      occurredAt: new Date(this.editDateTime()).toISOString(),
       type: this.editDiaperType(),
     }).subscribe({
-      next: () => { this.editSaving.set(false); this.cancelEdit(); this.toast(); this.loadTimeline(baby.id); },
+      next: () => { this.editSaving.set(false); this.cancelEdit(); this.toastMessage.set('Actualizat cu succes'); this.toast(); this.loadTimeline(baby.id); },
       error: () => this.editSaving.set(false),
     });
   }
@@ -463,12 +564,12 @@ export class TimelineComponent {
     const m = evt.raw as MedicationEntry;
     this.editSaving.set(true);
     this.medicationService.update(baby.id, m.id, {
-      administeredAt: m.administeredAt,
+      administeredAt: new Date(this.editDateTime()).toISOString(),
       name: this.editMedName(),
       doseAmount: this.editMedDose() || null,
       doseUnit: this.editMedUnit() || null,
     }).subscribe({
-      next: () => { this.editSaving.set(false); this.cancelEdit(); this.toast(); this.loadTimeline(baby.id); },
+      next: () => { this.editSaving.set(false); this.cancelEdit(); this.toastMessage.set('Actualizat cu succes'); this.toast(); this.loadTimeline(baby.id); },
       error: () => this.editSaving.set(false),
     });
   }

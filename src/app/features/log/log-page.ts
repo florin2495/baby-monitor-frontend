@@ -108,13 +108,15 @@ import { FeedingSource, SleepEntry } from '../../core/models';
         <div class="section-label">Cantitate (ml)</div>
         <div class="stepper" style="margin-bottom: 16px;">
           <button class="stepper__btn" (click)="feedingMl.set(Math.max(0, feedingMl() - 10))">−</button>
-          <div><span class="stepper__value">{{ feedingMl() }}</span><span class="stepper__unit"> ml</span></div>
+          <input type="number" class="luna-input" style="width: 70px; text-align: center; font-size: 16px; font-weight: 700; padding: 6px;"
+                 [value]="feedingMl()" (input)="feedingMl.set(+$any($event.target).value)" />
           <button class="stepper__btn" (click)="feedingMl.set(feedingMl() + 10)">+</button>
         </div>
         <div class="section-label">Durată (minute)</div>
         <div class="stepper" style="margin-bottom: 20px;">
           <button class="stepper__btn" (click)="feedingMin.set(Math.max(0, feedingMin() - 1))">−</button>
-          <div><span class="stepper__value">{{ feedingMin() }}</span><span class="stepper__unit"> min</span></div>
+          <input type="number" class="luna-input" style="width: 70px; text-align: center; font-size: 16px; font-weight: 700; padding: 6px;"
+                 [value]="feedingMin()" (input)="feedingMin.set(+$any($event.target).value)" />
           <button class="stepper__btn" (click)="feedingMin.set(feedingMin() + 1)">+</button>
         </div>
         <button class="btn-primary" style="width: 100%;" [disabled]="saving()" (click)="saveFeeding()">
@@ -159,27 +161,87 @@ import { FeedingSource, SleepEntry } from '../../core/models';
       <div class="bottom-sheet">
         <div class="grab-handle"></div>
         <h2 class="font-heading" style="font-size: 18px; font-weight: 700; color: #3B2E26; margin: 0 0 16px;">Creștere</h2>
-        <div class="section-label">Greutate (kg)</div>
-        <div class="stepper" style="margin-bottom: 12px;">
-          <button class="stepper__btn" (click)="growthWeight.set(Math.max(0, +(growthWeight() - 0.1).toFixed(1)))">−</button>
-          <div><span class="stepper__value">{{ growthWeight() }}</span><span class="stepper__unit"> kg</span></div>
-          <button class="stepper__btn" (click)="growthWeight.set(+(growthWeight() + 0.1).toFixed(1))">+</button>
+
+        <!-- Weight -->
+        <div class="growth-row" (click)="growthEditField.set('weight')">
+          <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: #FFF7ED; display: flex; align-items: center; justify-content: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3a9 9 0 019 9v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a9 9 0 019-9z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-body" style="font-size: 14px; font-weight: 600; color: #3B2E26; margin: 0;">Greutate</p>
+              <p class="font-body" style="font-size: 12px; color: #C4A99A; margin: 2px 0 0;">{{ growthWeight() ? growthWeight() + ' kg' : 'Apasă pentru a introduce' }}</p>
+            </div>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C4A99A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
         </div>
-        <div class="section-label">Înălțime (cm)</div>
-        <div class="stepper" style="margin-bottom: 12px;">
-          <button class="stepper__btn" (click)="growthHeight.set(Math.max(0, +(growthHeight() - 0.5).toFixed(1)))">−</button>
-          <div><span class="stepper__value">{{ growthHeight() }}</span><span class="stepper__unit"> cm</span></div>
-          <button class="stepper__btn" (click)="growthHeight.set(+(growthHeight() + 0.5).toFixed(1))">+</button>
+        @if (growthEditField() === 'weight') {
+          <div style="padding: 12px; background: #FEFCE8; border-radius: 12px; margin: -4px 0 12px;">
+            <div class="section-label" style="margin-bottom: 6px;">Greutate (kg) — 3 zecimale</div>
+            <input type="number" step="0.001" class="luna-input" style="font-size: 16px; font-weight: 700; text-align: center;"
+                   [value]="growthWeight()" (input)="growthWeight.set(+$any($event.target).value)" placeholder="ex: 3.450" />
+          </div>
+        }
+
+        <!-- Height -->
+        <div class="growth-row" (click)="growthEditField.set('height')">
+          <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: #F5F3FF; display: flex; align-items: center; justify-content: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v20M2 12h4M18 12h4M8 6l4-4 4 4M8 18l4 4 4-4"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-body" style="font-size: 14px; font-weight: 600; color: #3B2E26; margin: 0;">Înălțime</p>
+              <p class="font-body" style="font-size: 12px; color: #C4A99A; margin: 2px 0 0;">{{ growthHeight() ? growthHeight() + ' cm' : 'Apasă pentru a introduce' }}</p>
+            </div>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C4A99A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
         </div>
-        <div class="section-label">Circumferință cap (cm)</div>
-        <div class="stepper" style="margin-bottom: 20px;">
-          <button class="stepper__btn" (click)="growthHead.set(Math.max(0, +(growthHead() - 0.5).toFixed(1)))">−</button>
-          <div><span class="stepper__value">{{ growthHead() }}</span><span class="stepper__unit"> cm</span></div>
-          <button class="stepper__btn" (click)="growthHead.set(+(growthHead() + 0.5).toFixed(1))">+</button>
+        @if (growthEditField() === 'height') {
+          <div style="padding: 12px; background: #FEFCE8; border-radius: 12px; margin: -4px 0 12px;">
+            <div class="section-label" style="margin-bottom: 6px;">Înălțime (cm)</div>
+            <input type="number" step="0.1" class="luna-input" style="font-size: 16px; font-weight: 700; text-align: center;"
+                   [value]="growthHeight()" (input)="growthHeight.set(+$any($event.target).value)" placeholder="ex: 52.5" />
+          </div>
+        }
+
+        <!-- Head circumference -->
+        <div class="growth-row" (click)="growthEditField.set('head')">
+          <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: #F0FDFA; display: flex; align-items: center; justify-content: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-body" style="font-size: 14px; font-weight: 600; color: #3B2E26; margin: 0;">Circumferință cap</p>
+              <p class="font-body" style="font-size: 12px; color: #C4A99A; margin: 2px 0 0;">{{ growthHead() ? growthHead() + ' cm' : 'Apasă pentru a introduce' }}</p>
+            </div>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C4A99A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
         </div>
-        <button class="btn-primary" style="width: 100%;" [disabled]="saving()" (click)="saveGrowth()">
-          @if (saving()) { Se salvează... } @else { Salvează }
-        </button>
+        @if (growthEditField() === 'head') {
+          <div style="padding: 12px; background: #FEFCE8; border-radius: 12px; margin: -4px 0 12px;">
+            <div class="section-label" style="margin-bottom: 6px;">Circumferință cap (cm)</div>
+            <input type="number" step="0.1" class="luna-input" style="font-size: 16px; font-weight: 700; text-align: center;"
+                   [value]="growthHead()" (input)="growthHead.set(+$any($event.target).value)" placeholder="ex: 35.0" />
+          </div>
+        }
+
+        <div style="margin-top: 16px;">
+          <button class="btn-primary" style="width: 100%;" [disabled]="saving()" (click)="saveGrowth()">
+            @if (saving()) { Se salvează... } @else { Salvează }
+          </button>
+        </div>
       </div>
     }
 
@@ -223,6 +285,21 @@ import { FeedingSource, SleepEntry } from '../../core/models';
       </div>
     }
   `,
+  styles: [`
+    .growth-row {
+      display: flex;
+      align-items: center;
+      padding: 14px 12px;
+      border-radius: 14px;
+      background: rgba(245,230,222,0.2);
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .growth-row:active {
+      background: rgba(245,230,222,0.5);
+    }
+  `]
 })
 export class LogPageComponent {
   readonly ctx = inject(BabyContextService);
@@ -259,9 +336,13 @@ export class LogPageComponent {
     { value: 'Dry' as const, label: 'Uscat' },
   ];
   selectedDiaperType = signal<'Pee' | 'Poo' | 'Mixed' | 'Dry'>('Pee');
+
+  // Growth — manual input with clickable rows
   growthWeight = signal(0);
   growthHeight = signal(0);
   growthHead = signal(0);
+  growthEditField = signal<string | null>(null);
+
   medName = signal('');
   medDose = signal(0);
   medUnit = signal('ml');
@@ -282,11 +363,13 @@ export class LogPageComponent {
 
   openSheet(type: string) {
     this.activeSheet.set(type);
+    this.growthEditField.set(null);
     this.overlay.show();
   }
 
   closeSheet() {
     this.activeSheet.set(null);
+    this.growthEditField.set(null);
     this.overlay.hide();
   }
 
@@ -371,7 +454,14 @@ export class LogPageComponent {
       heightCm: this.growthHeight() || null,
       headCircumferenceCm: this.growthHead() || null,
     }).subscribe({
-      next: () => { this.saving.set(false); this.closeSheet(); this.toast(); },
+      next: () => {
+        this.saving.set(false);
+        this.closeSheet();
+        this.toast();
+        this.growthWeight.set(0);
+        this.growthHeight.set(0);
+        this.growthHead.set(0);
+      },
       error: () => this.saving.set(false),
     });
   }
