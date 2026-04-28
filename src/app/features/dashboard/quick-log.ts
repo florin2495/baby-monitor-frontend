@@ -5,32 +5,36 @@ import { FeedingService, SleepService, DiaperService } from '../../core/services
   selector: 'app-quick-log',
   standalone: true,
   template: `
-    <div class="grid grid-cols-3 gap-3">
-      <!-- Feeding -->
+    <p class="text-[13px] text-[#8e8e93] uppercase tracking-wider font-medium mb-2">Inregistrare rapida</p>
+    <div class="grid grid-cols-3 gap-2">
       <button (click)="logFeeding()"
-              class="flex flex-col items-center gap-1.5 rounded-2xl bg-baby-peach p-4 text-orange-700 hover:shadow-md transition active:scale-95">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 8.25v-1.5m-6 1.5v-1.5m12 9.75-1.5.75a3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0L3 16.5m15-3.379a48.474 48.474 0 0 0-6-.371c-2.032 0-4.034.126-6 .371m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.094 1.837 2.175v5.169c0 .621-.504 1.125-1.125 1.125H4.125A1.125 1.125 0 0 1 3 20.625v-5.17c0-1.08.768-2.014 1.837-2.174A47.78 47.78 0 0 1 6 13.12" />
-        </svg>
-        <span class="text-xs font-medium">Hranire</span>
+              class="flex flex-col items-center gap-1 rounded-2xl bg-[#fff3e0] py-3 touch-bounce">
+        <div class="w-10 h-10 rounded-full bg-[#ffe0b2] flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#e65100]" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M.99 5.24A2.25 2.25 0 013.25 3h13.5A2.25 2.25 0 0119 5.25l.01 9.5A2.25 2.25 0 0116.76 17H3.26A2.25 2.25 0 011 14.75l-.01-9.51zm8.26 9.52v-.625a.75.75 0 00-.75-.75H3.25a.75.75 0 00-.75.75v.615c0 .414.336.75.75.75h5.373a.75.75 0 00.627-.74zm1.5 0a.75.75 0 00.627.74h5.373a.75.75 0 00.75-.75v-.615a.75.75 0 00-.75-.75H11.5a.75.75 0 00-.75.75v.625zM10 .75a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0V1.5A.75.75 0 0110 .75z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <span class="text-[12px] font-medium text-[#e65100]">Hranire</span>
       </button>
 
-      <!-- Sleep -->
       <button (click)="logSleep()"
-              class="flex flex-col items-center gap-1.5 rounded-2xl bg-luna-50 p-4 text-luna-700 hover:shadow-md transition active:scale-95">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
-        </svg>
-        <span class="text-xs font-medium">Somn</span>
+              class="flex flex-col items-center gap-1 rounded-2xl bg-[#e8eaf6] py-3 touch-bounce">
+        <div class="w-10 h-10 rounded-full bg-[#c5cae9] flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#283593]" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M7.455 2.004a.75.75 0 01.26.77 7 7 0 009.958 7.967.75.75 0 011.067.853A8.5 8.5 0 118.25 3.5a.75.75 0 01-.795-1.496z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <span class="text-[12px] font-medium text-[#283593]">Somn</span>
       </button>
 
-      <!-- Diaper -->
       <button (click)="logDiaper()"
-              class="flex flex-col items-center gap-1.5 rounded-2xl bg-baby-mint p-4 text-teal-700 hover:shadow-md transition active:scale-95">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
-        </svg>
-        <span class="text-xs font-medium">Scutec</span>
+              class="flex flex-col items-center gap-1 rounded-2xl bg-[#e0f2f1] py-3 touch-bounce">
+        <div class="w-10 h-10 rounded-full bg-[#b2dfdb] flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#00695c]" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10 1a6 6 0 00-3.815 10.631C7.237 12.5 8 13.443 8 14.456v.644a.75.75 0 00.75.75h2.5a.75.75 0 00.75-.75v-.644c0-1.013.762-1.957 1.815-2.825A6 6 0 0010 1zM8.863 17.414a.75.75 0 00-.226 1.483 9.066 9.066 0 002.726 0 .75.75 0 00-.226-1.483 7.553 7.553 0 01-2.274 0z"/>
+          </svg>
+        </div>
+        <span class="text-[12px] font-medium text-[#00695c]">Scutec</span>
       </button>
     </div>
   `,

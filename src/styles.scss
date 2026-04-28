@@ -1,31 +1,473 @@
 @import "tailwindcss";
 
-/* ── Luna design tokens ──────────────────────────────────────────────── */
+/* ── Luna Design System v1.0 — Soft & Playful, Lavender & Warm ──── */
+
+/* Google Fonts loaded in index.html for build performance */
 
 @theme {
-  --color-luna-50:  #f0f4ff;
-  --color-luna-100: #dbe4ff;
-  --color-luna-200: #bac8ff;
-  --color-luna-300: #91a7ff;
-  --color-luna-400: #748ffc;
-  --color-luna-500: #5c7cfa;
-  --color-luna-600: #4c6ef5;
-  --color-luna-700: #4263eb;
-  --color-luna-800: #3b5bdb;
-  --color-luna-900: #364fc7;
+  /* Primary — Lavender */
+  --color-lavender-50:  #F5F3FF;
+  --color-lavender-100: #EDE9FE;
+  --color-lavender-200: #DDD6FE;
+  --color-lavender-500: #A78BFA;
+  --color-lavender-600: #8B5CF6;
+  --color-lavender-700: #7C3AED;
 
-  --color-baby-pink: #fce4ec;
-  --color-baby-blue: #e3f2fd;
-  --color-baby-mint: #e0f2f1;
-  --color-baby-peach: #fff3e0;
+  /* Warm neutrals */
+  --color-warm-50:  #FEFCFB;
+  --color-warm-100: #FFF8F5;
+  --color-warm-200: #F5E6DE;
+  --color-warm-400: #C4A99A;
+  --color-warm-600: #8B7263;
+  --color-warm-900: #3B2E26;
+
+  /* Event semantic colors */
+  --color-feeding:     #F97316;
+  --color-feeding-bg:  #FFF7ED;
+  --color-feeding-dark:#EA580C;
+
+  --color-sleep:       #8B5CF6;
+  --color-sleep-bg:    #F5F3FF;
+  --color-sleep-dark:  #7C3AED;
+
+  --color-diaper:      #14B8A6;
+  --color-diaper-bg:   #F0FDFA;
+  --color-diaper-dark: #0D9488;
+
+  --color-growth:      #3B82F6;
+  --color-growth-bg:   #EFF6FF;
+  --color-growth-dark: #2563EB;
+
+  --color-medication:     #F43F5E;
+  --color-medication-bg:  #FFF1F2;
+  --color-medication-dark:#E11D48;
+
+  /* Baby identity colors */
+  --color-baby1-bg: #F3E8FF;
+  --color-baby1:    #7C3AED;
+  --color-baby2-bg: #FEF3C7;
+  --color-baby2:    #D97706;
+  --color-baby3-bg: #DBEAFE;
+  --color-baby3:    #2563EB;
+  --color-baby4-bg: #D1FAE5;
+  --color-baby4:    #059669;
+
+  /* Coral for alerts */
+  --color-coral-500: #F87171;
+  --color-coral-100: #FEE2E2;
+
+  /* Peach accent */
+  --color-peach-500: #FB923C;
+  --color-peach-100: #FFEDD5;
 }
 
-/* ── Base resets ──────────────────────────────────────────────────────── */
+/* ── Base styles ─────────────────────────────────────────────────── */
 
-html, body {
-  @apply h-full bg-gray-50 text-gray-900 antialiased;
+html {
+  height: 100%;
+  background: #FEFCFB;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  @apply m-0 font-sans;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  color: #3B2E26;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* ── Safe area CSS env vars ──────────────────────────────────────── */
+
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+
+  /* Shadows */
+  --shadow-card: 0 2px 8px rgba(139, 92, 246, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-elevated: 0 8px 32px rgba(139, 92, 246, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-glow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+
+/* ── Typography helpers ──────────────────────────────────────────── */
+
+.font-heading {
+  font-family: 'Nunito', 'Nunito Sans', sans-serif;
+}
+
+.font-body {
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+/* ── Smooth touch scrolling ──────────────────────────────────────── */
+
+.scroll-area {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+/* ── Touch feedback ──────────────────────────────────────────────── */
+
+.touch-bounce {
+  transition: transform 0.15s ease;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.touch-bounce:active {
+  transform: scale(0.96);
+}
+
+/* ── Cards ───────────────────────────────────────────────────────── */
+
+.luna-card {
+  background: #FFF8F5;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(139, 92, 246, 0.06);
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────── */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #8B5CF6;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 14px 32px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-primary:active {
+  transform: scale(0.96);
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #EDE9FE;
+  color: #8B5CF6;
+  border: none;
+  border-radius: 16px;
+  padding: 12px 24px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-secondary:active {
+  transform: scale(0.96);
+}
+
+/* ── Inputs ──────────────────────────────────────────────────────── */
+
+.luna-input {
+  background: #FEFCFB;
+  border: 1.5px solid #F5E6DE;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 16px;
+  color: #3B2E26;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.luna-input:focus {
+  border-color: #A78BFA;
+  box-shadow: var(--shadow-glow);
+}
+
+.luna-input::placeholder {
+  color: #C4A99A;
+}
+
+/* ── Bottom sheet ────────────────────────────────────────────────── */
+
+.bottom-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(59, 46, 38, 0.3);
+  z-index: 200;
+  animation: fadeIn 0.2s ease;
+}
+
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FEFCFB;
+  border-radius: 24px 24px 0 0;
+  box-shadow: var(--shadow-elevated);
+  max-height: 85vh;
+  overflow-y: auto;
+  z-index: 201;
+  padding: 12px 20px calc(20px + var(--sab));
+  animation: slideUp 0.3s ease-out;
+}
+
+.grab-handle {
+  width: 36px;
+  height: 4px;
+  background: #F5E6DE;
+  border-radius: 100px;
+  margin: 0 auto 16px;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(0); }
+  to { transform: translateY(100%); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* ── Pills ───────────────────────────────────────────────────────── */
+
+.baby-pill {
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+}
+
+.baby-pill--active {
+  background: #8B5CF6;
+  color: white;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.baby-pill--inactive {
+  background: #FFF8F5;
+  color: #8B7263;
+  border: 1px solid #F5E6DE;
+}
+
+/* ── Filter pills ────────────────────────────────────────────────── */
+
+.filter-pill {
+  padding: 8px 14px;
+  border-radius: 100px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1.5px solid #F5E6DE;
+  color: #8B7263;
+  background: #FFF8F5;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.filter-pill--active {
+  background: #EDE9FE;
+  border-color: #8B5CF6;
+  color: #8B5CF6;
+}
+
+/* ── Stat card ───────────────────────────────────────────────────── */
+
+.stat-card {
+  background: #FFF8F5;
+  border-radius: 16px;
+  padding: 12px;
+  text-align: center;
+  min-width: 0;
+  flex: 1;
+  box-shadow: var(--shadow-card);
+}
+
+.stat-card__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 6px;
+}
+
+.stat-card__value {
+  font-family: 'Nunito', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #3B2E26;
+  line-height: 1.2;
+}
+
+.stat-card__label {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 12px;
+  color: #8B7263;
+  margin-top: 2px;
+}
+
+/* ── Event dot ───────────────────────────────────────────────────── */
+
+.event-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Log button ──────────────────────────────────────────────────── */
+
+.log-btn {
+  border-radius: 20px;
+  padding: 18px 12px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.log-btn:active {
+  transform: scale(0.95);
+}
+
+.log-btn__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.log-btn__label {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ── Stepper ─────────────────────────────────────────────────────── */
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #FFF8F5;
+  border-radius: 14px;
+  padding: 8px 12px;
+}
+
+.stepper__btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  background: #EDE9FE;
+  color: #8B5CF6;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.stepper__btn:active {
+  transform: scale(0.92);
+}
+
+.stepper__value {
+  flex: 1;
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #3B2E26;
+}
+
+.stepper__unit {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  color: #C4A99A;
+}
+
+/* ── Source pills (for feeding form etc.) ─────────────────────────── */
+
+.source-pill {
+  padding: 10px 16px;
+  border-radius: 14px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1.5px solid #F5E6DE;
+  color: #8B7263;
+  background: #FFF8F5;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.source-pill--active {
+  background: #EDE9FE;
+  border-color: #8B5CF6;
+  color: #8B5CF6;
+}
+
+/* ── Section label ───────────────────────────────────────────────── */
+
+.section-label {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #8B7263;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
 }

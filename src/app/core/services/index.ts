@@ -4,3 +4,4 @@ export * from './sleep.service';
 export * from './diaper.service';
 export * from './growth.service';
 export * from './medication.service';
+export * from './baby-context.service';

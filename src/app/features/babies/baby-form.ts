@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { BabyService } from '../../core/services';
+import { BabyService, BabyContextService } from '../../core/services';
 import { Sex } from '../../core/models';
 
 @Component({
@@ -9,75 +9,65 @@ import { Sex } from '../../core/models';
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
   template: `
-    <div class="mb-6">
-      <a routerLink="/babies" class="text-sm text-luna-600 hover:text-luna-800 flex items-center gap-1">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-        </svg>
-        Inapoi
-      </a>
-    </div>
+    <!-- Back -->
+    <button (click)="goBack()" class="touch-bounce"
+            style="display: flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 600; color: #8B5CF6; background: none; border: none; cursor: pointer; padding: 0; margin-bottom: 20px; font-family: 'Nunito Sans', sans-serif;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Înapoi
+    </button>
 
-    <h1 class="text-2xl font-bold text-gray-900 mb-6">
-      {{ isEdit() ? 'Editeaza bebelus' : 'Adauga bebelus' }}
+    <h1 class="font-heading" style="font-size: 22px; font-weight: 800; color: #3B2E26; margin: 0 0 24px;">
+      {{ isEdit() ? 'Editează bebeluș' : 'Bebeluș nou' }}
     </h1>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <!-- Name -->
-      <div>
-        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nume</label>
-        <input id="name" formControlName="name" type="text" autocomplete="off"
-               class="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm focus:border-luna-500 focus:ring-2 focus:ring-luna-200 outline-none transition" />
-      </div>
+      <div class="section-label">Nume</div>
+      <input formControlName="name" class="luna-input" placeholder="ex: Sofia" autocomplete="off" style="margin-bottom: 16px;" />
 
-      <!-- Date of Birth -->
-      <div>
-        <label for="dob" class="block text-sm font-medium text-gray-700 mb-1">Data nasterii</label>
-        <input id="dob" formControlName="dateOfBirth" type="date"
-               class="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm focus:border-luna-500 focus:ring-2 focus:ring-luna-200 outline-none transition" />
-      </div>
+      <!-- Date of birth -->
+      <div class="section-label">Data nașterii</div>
+      <input formControlName="dateOfBirth" type="date" class="luna-input" style="margin-bottom: 16px;" />
 
-      <!-- Sex -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">Sex</label>
-        <div class="flex gap-3">
-          @for (option of sexOptions; track option.value) {
-            <label class="flex-1 cursor-pointer">
-              <input type="radio" formControlName="sex" [value]="option.value" class="peer sr-only" />
-              <div class="text-center rounded-xl border border-gray-300 py-2.5 text-sm font-medium
-                          peer-checked:border-luna-500 peer-checked:bg-luna-50 peer-checked:text-luna-700 transition">
-                {{ option.label }}
-              </div>
-            </label>
-          }
-        </div>
+      <!-- Sex selector -->
+      <div class="section-label">Sex</div>
+      <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+        @for (option of sexOptions; track option.value) {
+          <button type="button" class="source-pill" style="flex: 1; text-align: center;"
+                  [class.source-pill--active]="form.get('sex')!.value === option.value"
+                  (click)="form.get('sex')!.setValue(option.value)">
+            {{ option.label }}
+          </button>
+        }
       </div>
 
       <!-- Notes -->
-      <div>
-        <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Note (optional)</label>
-        <textarea id="notes" formControlName="notes" rows="3"
-                  class="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm focus:border-luna-500 focus:ring-2 focus:ring-luna-200 outline-none transition resize-none"></textarea>
-      </div>
+      <div class="section-label">Note</div>
+      <textarea formControlName="notes" class="luna-input" rows="3" placeholder="Opțional..." style="resize: none; margin-bottom: 24px;"></textarea>
 
       <!-- Submit -->
-      <button type="submit" [disabled]="form.invalid || submitting()"
-              class="w-full rounded-xl bg-luna-600 py-3 text-sm font-semibold text-white shadow-sm hover:bg-luna-700 disabled:opacity-50 transition">
+      <button type="submit" class="btn-primary" style="width: 100%;" [disabled]="form.invalid || submitting()">
         @if (submitting()) {
-          <span class="inline-flex items-center gap-2">
-            <span class="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></span>
-            Se salveaza...
+          <span style="display: inline-flex; align-items: center; gap: 8px;">
+            <span style="width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite;"></span>
+            Se salvează...
           </span>
         } @else {
-          {{ isEdit() ? 'Salveaza' : 'Adauga' }}
+          {{ isEdit() ? 'Salvează modificările' : 'Adaugă bebeluș' }}
         }
       </button>
     </form>
   `,
+  styles: [`
+    @keyframes spin { to { transform: rotate(360deg); } }
+  `]
 })
 export class BabyFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly babyService = inject(BabyService);
+  private readonly babyCtx = inject(BabyContextService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
@@ -86,9 +76,9 @@ export class BabyFormComponent implements OnInit {
   private editId = '';
 
   sexOptions: { value: Sex; label: string }[] = [
-    { value: 'Male', label: 'Baiat' },
-    { value: 'Female', label: 'Fata' },
-    { value: 'Unknown', label: 'Nespecificat' },
+    { value: 'Male', label: 'Băiat' },
+    { value: 'Female', label: 'Fată' },
+    { value: 'Unknown', label: 'Necunoscut' },
   ];
 
   form = this.fb.nonNullable.group({
@@ -114,10 +104,13 @@ export class BabyFormComponent implements OnInit {
     }
   }
 
+  goBack() {
+    this.router.navigate(['/settings']);
+  }
+
   onSubmit() {
     if (this.form.invalid) return;
     this.submitting.set(true);
-
     const value = this.form.getRawValue();
     const dto = {
       name: value.name,
@@ -131,7 +124,10 @@ export class BabyFormComponent implements OnInit {
       : this.babyService.create(dto);
 
     action$.subscribe({
-      next: () => this.router.navigate(['/babies']),
+      next: () => {
+        this.babyCtx.refresh();
+        this.router.navigate(['/settings']);
+      },
       error: () => this.submitting.set(false),
     });
   }
